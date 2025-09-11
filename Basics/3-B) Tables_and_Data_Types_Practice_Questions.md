@@ -174,7 +174,7 @@ DROP TABLE enrollment
 DROP TABLE IF EXISTS courses;
 ```
 
-## 15. 15. Create a table 'orders'.
+## 15. Create a table 'orders'.
 ```sql
 CREATE TABLE IF NOT EXISTS orders(
 order_id INT PRIMARY KEY,

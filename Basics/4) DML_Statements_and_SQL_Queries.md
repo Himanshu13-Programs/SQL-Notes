@@ -104,6 +104,18 @@ LIMIT 5;
 SELECT * FROM students
 LIMIT 5 OFFSET 5;
 ```
+- ### ⚡ Note:
+
+- In MySQL, PostgreSQL, SQLite, MariaDB, we use LIMIT.
+
+-In SQL Server, MS Access, we use TOP.
+```sql
+-- MySQL
+SELECT * FROM students ORDER BY marks DESC LIMIT 5;
+
+-- SQL Server
+SELECT TOP 5 * FROM students ORDER BY marks DESC;
+```
 
 ---
 
