@@ -1,4 +1,4 @@
-# 📘 Day 6 – Aggregate Functions, GROUP BY, HAVING
+# 📘 5 – Aggregate Functions, GROUP BY, HAVING
 
 ## 1. Aggregate Functions in SQL
 

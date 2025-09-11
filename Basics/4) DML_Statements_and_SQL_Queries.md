@@ -1,4 +1,4 @@
-# 📘 SQL Day 5: DML Statements & Queries
+# 📘 4: DML Statements & Queries
 
 ## 1. What are DML Statements?
 - **DML (Data Manipulation Language)** is used to manage data inside existing tables.  

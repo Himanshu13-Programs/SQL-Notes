@@ -1,4 +1,4 @@
-# Introduction to SQL
+# 1. Introduction to SQL
 
 ## 1. What is a Database?
 - A **database** is an organized collection of data stored and accessed electronically in a computer system or cloud.  

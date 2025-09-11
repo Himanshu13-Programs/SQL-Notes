@@ -1,4 +1,4 @@
-# SQL_Basics
+# 2. SQL_Basics
 
 ---
 

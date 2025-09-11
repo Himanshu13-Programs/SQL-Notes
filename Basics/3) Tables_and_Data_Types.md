@@ -1,4 +1,4 @@
-# Tables & Data Types in SQL
+# 3. Tables & Data Types in SQL
 
 ## 1. Creating a Table
 ```sql
