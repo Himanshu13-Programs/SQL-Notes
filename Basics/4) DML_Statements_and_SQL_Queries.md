@@ -13,17 +13,71 @@
 ---
 
 ## 2. INSERT
-- Add new records into a table.
+- The `INSERT` statement is used to add new records into a table. SQL provides different ways to insert data depending on the requirement.
+
+---
+
+### 1. Insert Values into All Columns
+
+If values are provided for **all columns** in order, column names can be skipped.
 
 ```sql
--- Insert all columns
-INSERT INTO students (student_id, name, marks, dob)
-VALUES (1, 'Rahul', 85, '2003-11-29');
-
--- Insert only some columns (others use default or NULL)
-INSERT INTO students (name, marks)
-VALUES ('Sneha', 90);
+INSERT INTO Students
+VALUES (1, 'Amit', 20, 'Delhi');
 ```
+
+---
+
+### 2. Insert Values into Specific Columns
+
+You can insert data into only certain columns. The remaining columns will take `NULL` or their `DEFAULT` values.
+
+```sql
+INSERT INTO Students (RollNo, Name)
+VALUES (2, 'Riya');
+```
+
+---
+
+### 3. Insert Multiple Rows
+
+Multiple records can be inserted in one statement by separating each set of values with a comma.
+
+```sql
+INSERT INTO Students (RollNo, Name, Age, City)
+VALUES
+  (3, 'Vikram', 21, 'Mumbai'),
+  (4, 'Neha', 22, 'Pune');
+```
+
+---
+
+### 4. Insert Using SELECT
+
+Instead of providing literal values, data can be copied from another table using `SELECT`.
+
+```sql
+INSERT INTO Students (RollNo, Name, Age, City)
+SELECT RollNo, Name, Age, City
+FROM OldStudents;
+```
+
+---
+
+### 5. Insert Default Values
+
+When a column has a `DEFAULT` defined, you can insert rows without specifying values for it.
+
+```sql
+INSERT INTO Students (RollNo, Name, Age)
+VALUES (5, 'Karan', DEFAULT);
+```
+
+
+---
+
+
+
 ## 3. UPDATE
 - Modify existing records.
 
@@ -54,21 +108,55 @@ DELETE FROM students;
 
 - ⚠️ Use TRUNCATE TABLE students; if you want to quickly delete all rows (faster, but can’t use WHERE).
 
+## Rolling Back DELETE Operations
+
+The `DELETE` statement is a **Data Manipulation Language (DML)** command, which means its changes can be undone if they are part of a transaction. This is useful when records are deleted accidentally or if the operation needs to be tested before committing.
+
+---
+
+### Example
+
+```sql
+START TRANSACTION;
+
+DELETE FROM GFG_Employees
+WHERE department = 'Development';
+
+-- Undo the deletion if required
+ROLLBACK;
+```
+
+---
+
+### Explanation
+
+* `START TRANSACTION;` begins a transaction block.
+* `DELETE` removes all rows that match the condition (`department = 'Development'`).
+* `ROLLBACK;` cancels all changes made during the transaction, restoring the deleted rows.
+
+---
+
+### Key Point
+
+* Since `DELETE` is a DML operation, it can be **rolled back** if not yet committed.
+* Once the transaction is committed using `COMMIT;`, the deletion becomes permanent.
+
+
+
 ## 5. SELECT (Queries)
 
-### a) Basic
+### a) Basic: will fetch all the fields from the table.
 ```sql
--- Select all columns
 SELECT * FROM students;
-
--- Select specific columns
+```
+etrieve specific columns from the table.
+```
 SELECT name, marks FROM students;
 ```
 
-### b) Filtering with WHERE
+### b) Filtering with WHERE : we want to see table values with specific conditions then WHERE Clause is used with select statement
 
 ```sql
--- Using comparison operators
 SELECT * FROM students
 WHERE marks > 80;
 
@@ -79,7 +167,7 @@ SELECT * FROM students
 WHERE marks != 50;
 ```
 
-### c) Sorting
+### c) Sorting: RDER BY clause in SQL is used to sort query results based on one or more columns in either ascending (ASC) or descending (DESC) order.
 
 ```sql
 -- Ascending (default)
@@ -90,7 +178,13 @@ ORDER BY marks ASC;
 SELECT * FROM students
 ORDER BY marks DESC;
 ```
+### Order by column number.
 
+```sql
+SELECT Roll_no, Name, Address
+FROM studentinfo
+ORDER BY 1;
+```
 ---
 
 ### d) Limiting results
@@ -119,7 +213,7 @@ SELECT TOP 5 * FROM students ORDER BY marks DESC;
 
 ---
 
-### e) Distinct
+### e) Distinct: used to retrieve only unique values, eliminating duplicates from query results.
 
 ```sql
 SELECT DISTINCT dept_id FROM employees;
@@ -221,7 +315,146 @@ WHERE (dept_id = 1 OR dept_id = 2)
 
 ---
 
-## 10. Comments in SQL
+
+## 10. Comparison Operators
+- Comparison operators in SQL are used to compare values.  
+- They are commonly used in `WHERE` clauses to filter records.
+
+---
+
+## 📌 Comparison Operators Table
+
+| Operator      | Description                                |
+|---------------|--------------------------------------------|
+| `=`           | Equal to                                   |
+| `!=` / `<>`   | Not equal to                               |
+| `>`           | Greater than                               |
+| `<`           | Less than                                  |
+| `>=`          | Greater than or equal to                   |
+| `<=`          | Less than or equal to                      |
+
+
+---
+
+```sql
+-- 1. Equal To (=)
+SELECT * FROM employees WHERE department = 'HR';
+
+-- 2. Not Equal To (!= or <>)
+SELECT * FROM employees WHERE department != 'HR';
+SELECT * FROM employees WHERE department <> 'HR';
+
+-- 3. Greater Than (>)
+SELECT * FROM employees WHERE salary > 50000;
+
+-- 4. Less Than (<)
+SELECT * FROM employees WHERE salary < 50000;
+
+-- 5. Greater Than or Equal To (>=)
+SELECT * FROM employees WHERE salary >= 60000;
+
+-- 6. Less Than or Equal To (<=)
+SELECT * FROM employees WHERE salary <= 40000;
+
+
+```
+
+## 11. Bitwise Operators
+- Used to perform bitwise operations on binary values in SQL queries.
+
+* `&` → Bitwise AND
+* `|` → Bitwise OR
+* `^` → Bitwise XOR
+* `~` → Bitwise NOT (unary)
+* `<<` → Left Shift
+* `>>` → Right Shift
+
+
+```sql
+
+-- 1. Bitwise AND (&)
+-- Binary AND: only 1 if both bits are 1
+SELECT id, a, b, (a & b) AS result_AND FROM numbers;
+
+-- 2. Bitwise OR (|)
+-- Binary OR: 1 if at least one bit is 1
+SELECT id, a, b, (a | b) AS result_OR FROM numbers;
+
+-- 3. Bitwise XOR (^)
+-- Binary XOR: 1 if bits are different
+SELECT id, a, b, (a ^ b) AS result_XOR FROM numbers;
+
+-- 4. Bitwise NOT (~)
+-- Unary operator: flips all bits
+-- (In SQL, works as -(x+1) for integers)
+SELECT id, a, b, (~a) AS result_NOT_A, (~b) AS result_NOT_B FROM numbers;
+
+-- 5. Left Shift (<<)
+-- Shifts bits to the left (multiply by 2^n)
+SELECT id, a, (a << 1) AS shift_left_1, (a << 2) AS shift_left_2 FROM numbers;
+
+-- 6. Right Shift (>>)
+-- Shifts bits to the right (divide by 2^n)
+SELECT id, a, (a >> 1) AS shift_right_1, (a >> 2) AS shift_right_2 FROM numbers;
+```
+---
+
+## 12. Special Operators
+
+
+## 📌 Special Operators Table
+
+| Operator      | Description                                                        |
+|---------------|--------------------------------------------------------------------|
+| `ALL`         | Compare a value with **all values** returned by a subquery         |
+| `ANY` / `SOME`| Compare a value with **any value** returned by a subquery          |
+| `BETWEEN`     | Check if a value is within a range (inclusive)                     |
+| `IN`          | Check if a value matches any value in a list or subquery           |
+| `EXISTS`      | Check if a subquery returns any rows                               |
+| `UNIQUE`      | Ensures subquery returns only unique rows (no duplicates)          |
+
+---
+
+## 📖 SQL Script Demonstrating Special Operators
+
+```sql
+-- 1. BETWEEN
+-- Employees with salary between 40k and 60k
+SELECT * FROM employees WHERE salary BETWEEN 40000 AND 60000;
+
+-- 2. IN
+-- Employees in HR or Finance
+SELECT * FROM employees WHERE department IN ('HR', 'Finance');
+
+-- 3. EXISTS
+-- Employees who are managers of someone
+SELECT * FROM employees e
+WHERE EXISTS (
+    SELECT 1 FROM employees m WHERE m.manager_id = e.id
+);
+
+-- 4. ANY / SOME
+-- Employees whose salary is greater than ANY salary in HR
+SELECT * FROM employees
+WHERE salary > ANY (SELECT salary FROM employees WHERE department = 'HR');
+
+-- 5. ALL
+-- Employees whose salary is greater than ALL salaries in Finance
+SELECT * FROM employees
+WHERE salary > ALL (SELECT salary FROM employees WHERE department = 'Finance');
+
+-- 6. UNIQUE
+-- Check if subquery returns unique rows (syntax differs by SQL dialect)
+-- Example: List salaries that are unique in employees table
+SELECT salary
+FROM employees e
+WHERE UNIQUE (
+    SELECT salary FROM employees WHERE department = e.department
+);
+```
+
+
+## 13. Comments in SQL
 
 Comments are used to explain code and are ignored during execution.
 

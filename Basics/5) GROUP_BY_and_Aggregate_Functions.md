@@ -26,6 +26,10 @@ SELECT MIN(salary) FROM employees;
 -- Maximum marks
 SELECT MAX(marks) FROM students;
 ```
+---
+## Quick Facts
+- These functions ignore NULL values in calculations.
+- MIN() and MAX() return NULL if there are no rows to evaluate.
 
 ---
 
@@ -139,6 +143,22 @@ FROM employees
 GROUP BY dept_id
 ORDER BY min_salary ASC;
 ```
+
+---
+
+## SQL Order of Operations
+- The logical processing order of an SQL query is:
+
+1) **FROM** – Identify source tables  
+2) **ON** – Apply join conditions  
+3) **JOIN** – Combine tables  
+4) **WHERE** – Filter rows before grouping  
+5) **GROUP BY** – Group rows for aggregation  
+6) **HAVING** – Filter groups after aggregation  
+7) **SELECT** – Choose columns or expressions to return  
+8) **DISTINCT** – Remove duplicate rows  
+9) **ORDER BY** – Sort the result set  
+10) **LIMIT / OFFSET** – Restrict the number of rows returned
 
 ---
 

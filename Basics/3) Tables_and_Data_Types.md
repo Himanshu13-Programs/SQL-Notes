@@ -10,6 +10,12 @@ CREATE TABLE IF NOT EXISTS students (
     enrollment_date DATE
 );
 ```
+### B. Create Table from Existing Table
+```sql
+CREATE TABLE SubTable AS
+SELECT CustomerID, CustomerName
+FROM customer;
+```
 **Notes:**
 - `IF NOT EXISTS` avoids errors if the table already exists.
 - `PRIMARY KEY` ensures uniqueness.
@@ -103,18 +109,83 @@ DROP INDEX idx_first_name ON students;
 ---
 
 ## 6. Data Types Overview
+# Data Types in SQL
 
-| Data Type | Description | Example |
-|-----------|------------|---------|
-| INT, BIGINT, SMALLINT | Whole numbers | 1, 1000 |
-| DECIMAL, FLOAT, DOUBLE | Floating point numbers | 12.34, 3.1415 |
-| CHAR(n) | Fixed-length string | 'A' |
-| VARCHAR(n) | Variable-length string | 'Himanshu' |
-| DATE | Date values | '2025-09-09' |
-| DATETIME, TIMESTAMP | Date and time | '2025-09-09 21:00:00' |
-| BOOLEAN, TINYINT(1) | True/False | 1 (true), 0 (false) |
-| TEXT | Large text data | 'SQL notes...' |
+Each column in a SQL table must have a *data type* which defines what kind of data it can store. Choosing the right data type is important for storage efficiency, data integrity, and query performance.
 
+---
+
+## Categories of SQL Data Types
+
+| Category | Description | Common Data Types |
+|---|---|---|
+| **Numeric (Exact)** | Used for integer values, counts, money etc. Exact precision required. | `TINYINT`, `SMALLINT`, `INT`, `BIGINT`, `DECIMAL(p, s)`, `NUMERIC(p, s)` |
+| **Numeric (Approximate / Floating Point)** | Used when large ranges or decimal precision aren’t strict. | `FLOAT`, `REAL`, `DOUBLE` |
+| **Character / String** | Text data; fixed or variable length; Unicode vs non-Unicode. | `CHAR(n)`, `VARCHAR(n)`, `TEXT`, `NCHAR(n)`, `NVARCHAR(n)` |
+| **Date & Time** | Dates, times, timestamps. Useful for event logging, scheduling etc. | `DATE`, `TIME`, `DATETIME`, `DATETIME2`, `TIMESTAMP` |
+| **Binary / Blob** | Binary data such as images, files, etc. | `BINARY`, `VARBINARY`, `IMAGE`, `BLOB` |
+| **Boolean / Logical** | Store true/false / flag values. | `BOOLEAN`, `BIT` |
+| **Special / Other Types** | For specific use-cases like spatial, XML/JSON, GUIDs. | `XML`, `JSON`, `GEOMETRY`, `UNIQUEIDENTIFIER`, `UUID` |
+
+---
+
+## Details & Examples
+
+### Exact Numeric Types
+
+- `INT` (or `INTEGER`) — typical 4 bytes, range approx −2,147,483,648 to 2,147,483,647.  
+- `BIGINT` — 8 bytes; much larger range.  
+- `SMALLINT`, `TINYINT` — smaller storage, smaller range. Useful when values are limited.  
+- `DECIMAL(p, s)` / `NUMERIC(p, s)` — fixed-point exact numbers. `p` = precision (total digits), `s` = scale (digits after decimal). Useful for money, financial, percentages.  
+
+### Approximate Numeric Types
+
+- `FLOAT`, `REAL` — used for extremely large or small values. May lead to rounding errors.  
+
+### Character / String Types
+
+- `CHAR(n)` — fixed-length string. If stored data is shorter, padded.  
+- `VARCHAR(n)` — variable-length, more flexible, saves space when strings vary.  
+- `TEXT` — for long text data. Some DBs have limitations or performance costs.  
+- Unicode versions: `NCHAR`, `NVARCHAR` etc. to support multilingual characters.  
+
+### Date & Time Types
+
+- `DATE` — stores calendar date (year-month-day).  
+- `TIME` — time of day (hours, minutes, seconds).  
+- `DATETIME`, `DATETIME2` — date and time combined, often with fractional seconds.  
+- `TIMESTAMP` — sometimes includes timezone; semantics differ among databases.  
+
+### Binary / Blob Types
+
+- `BINARY(n)`, `VARBINARY(n)` — store binary data. Fixed vs variable length.  
+- `BLOB` / `IMAGE` — large binary objects; images, files etc.  
+
+### Boolean / Logical Types
+
+- `BOOLEAN` / `BOOL` — true/false values. Implementation differs between SQL dialects.  
+- Some DBs use `BIT` or integer with 0/1 to emulate Boolean.  
+
+### Special Types
+
+- `UNIQUEIDENTIFIER` / `UUID` — for GUIDs.  
+- `XML`, `JSON`, `GEOMETRY` / spatial types.  
+
+---
+
+## SQL Example
+
+```sql
+CREATE TABLE Employees (
+  EmployeeID INT PRIMARY KEY,
+  FullName VARCHAR(100) NOT NULL,
+  BirthDate DATE,
+  Salary DECIMAL(10,2),
+  IsActive BOOLEAN,
+  ProfilePicture VARBINARY(MAX),
+  CreatedAt DATETIME2
+);
+```
 ---
 
 ## 7. Column Constraints

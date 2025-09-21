@@ -7,11 +7,11 @@ I’ll be updating this repo **regularly** as I learn and document SQL commands,
 
 ## 📂 Structure
 SQL-Notes/
-├── Basics/ # Foundational topics (DDL, DML, Joins, etc.)
-├── Intermediate/ # Functions, Subqueries, Window functions
-├── Advanced/ # Stored Procedures, Triggers, Optimization
-├── Extras/ # NoSQL vs SQL, Case Studies, Interview Questions
-└── README.md # You are here
+- ├── Basics/ # Foundational topics (DDL, DML, Functions, etc.)
+- ├── Intermediate/ # Joins, Subqueries, Window functions
+- ├── Advanced/ # Stored Procedures, Triggers, Optimization
+- ├── Extras/ # NoSQL vs SQL, Case Studies, Interview Questions
+- └── README.md # You are here
 
 
 ---

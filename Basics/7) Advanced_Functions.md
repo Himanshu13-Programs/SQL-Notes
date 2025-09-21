@@ -187,12 +187,49 @@ SELECT LEAST(10, 25, 5, 40);
 
 ### 4.5 UUID()
 
-Generates a universal unique identifier.
+- Generates a universal unique identifier.
 
 ```sql
 SELECT UUID();
 ```
 
+### 4.6 BIN()
+- Convert decimal to binary
+```sql
+
+SELECT BIN(10);
+
+```
+
+### 4.7 BINARY()
+- Convert to binary string
+```sql
+
+SELECT BINARY "GeeksforGeeks";
+```
+### 4.8 CURRENT_USER()
+- Returns the user name and hostname for the MySQL account used by the server.
+```sql
+SELECT CURRENT_USER();
+```
+
+### 4.9 CONNECTION_ID()
+- Returns the unique connection ID for the current connection
+```sql
+SELECT CONNECTION_ID();
+```
+
+### 4.10 USER()
+- It returns the user name and host name for the current MySQL user
+```sql
+SELECT USER();
+```
+
+### 4.11 VERSION()
+- It returns the version of the MySQL database
+```sql
+SELECT VERSION();
+```
 ---
 
 ## 5. 🔹 Aggregate Extensions
