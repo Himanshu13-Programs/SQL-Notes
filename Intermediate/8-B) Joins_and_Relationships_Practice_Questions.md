@@ -202,14 +202,14 @@ INNER JOIN employees e2 ON e1.department_id = e2.department_id
 WHERE e1.name = 'Alice Johnson' AND e2.name != 'Alice Johnson';
 ```
 
-Q7: List all projects with the count of employees working on each project. Include projects with zero employees.
+### Q7: List all projects with the count of employees working on each project. Include projects with zero employees.
 ```sql
 SELECT p.project_name, COUNT(ep.employee_id) AS employee_count
 FROM projects p
 LEFT JOIN employee_projects ep ON p.id = ep.project_id
 GROUP BY p.project_name;
 ```
-Q8: Show employees who earn more than their managers. Display employee name, employee salary, manager name, and manager salary.
+### Q8: Show employees who earn more than their managers. Display employee name, employee salary, manager name, and manager salary.
 ```sql
 select e1.name AS Employee_Name,
 e1.salary as Employee_Salary,
@@ -220,7 +220,7 @@ INNER JOIN employees e2
 ON (e1.manager_id=e2.id)
 WHERE e1.salary > e2.salary;
 ```
-Q9:Find all employees and the projects they're working on. Show employee name, project name, and their role in the project.
+### Q9:Find all employees and the projects they're working on. Show employee name, project name, and their role in the project.
 ```sql
 SELECT e.name,p.project_name,ep.role
 FROM employee_projects ep
@@ -229,7 +229,7 @@ ON (e.id = ep.employee_id)
 INNER JOIN projects p
 ON (p.id = ep.project_id)
 ```
-Q10: List departments that have more than 2 employees. Show department name and employee count.
+### Q10: List departments that have more than 2 employees. Show department name and employee count.
 ```sql
 SELECT d.dept_name, COUNT(e.id) AS employee_count
 FROM departments d
@@ -238,25 +238,29 @@ GROUP BY d.dept_name
 HAVING COUNT(e.id) > 2;
 ```
 
-# SQL Joins - Practice Questions (Q11-Q20)
-
-## 📋 Dataset Reminder
-
-Make sure you have the following tables with data:
-- `employees` (10 rows)
-- `departments` (5 rows)
-- `projects` (6 rows)
-- `employee_projects` (10 rows - junction table)
-
----
-
 ### Q11: Find employees who are NOT assigned to any project. Display only their names and emails.
 
 ```sql
-
-
-
-
+SELECT e.name, e.email
+FROM employees e
+WHERE e.id NOT IN (
+    SELECT DISTINCT employee_id FROM employee_projects
+);
+```
+**Alternative:**
+```sql
+SELECT e.name, e.email
+FROM employees e
+WHERE NOT EXISTS (
+    SELECT 1 FROM employee_projects ep 
+    WHERE ep.employee_id = e.id
+);
+```
+```sql
+SELECT e.name, e.email
+FROM employees e
+LEFT JOIN employee_projects ep ON e.id = ep.employee_id
+WHERE ep.employee_id IS NULL;
 ```
 
 ---
@@ -265,9 +269,10 @@ Make sure you have the following tables with data:
 
 ```sql
 
-
-
-
+SELECT e.name,p.project_name
+FROM employees e
+CROSS JOIN projects p
+LIMIT 20;
 ```
 
 ---
@@ -275,10 +280,10 @@ Make sure you have the following tables with data:
 ### Q13: List employees along with the total hours they've worked across all projects. Include employees with zero hours (not assigned to any project).
 
 ```sql
-
-
-
-
+SELECT e.name, COALESCE(SUM(p.hours_worked), 0) AS total_hours
+FROM employees e
+LEFT JOIN employee_projects p ON e.id = p.employee_id
+GROUP BY e.name;
 ```
 
 ---
@@ -286,10 +291,12 @@ Make sure you have the following tables with data:
 ### Q14: Find departments where the average employee salary is greater than $70,000. Show department name and average salary.
 
 ```sql
-
-
-
-
+SELECT d.dept_name,coalesce(AVG(e.salary),0) AS Avg_salary
+FROM departments d
+LEFT JOIN employees e
+ON (d.id = e.department_id)
+GROUP BY d.dept_name
+HAVING Avg_salary > 70000;
 ```
 
 ---
@@ -297,10 +304,15 @@ Make sure you have the following tables with data:
 ### Q15: Display a report showing: department name, number of employees, number of projects, and total department budget. Include all departments even if they have no employees or projects.
 
 ```sql
-
-
-
-
+SELECT 
+    d.dept_name,
+    COUNT(DISTINCT e.id) AS employee_count,
+    COUNT(DISTINCT p.id) AS project_count,
+    d.budget AS department_budget
+FROM departments d
+LEFT JOIN employees e ON d.id = e.department_id
+LEFT JOIN projects p ON d.id = p.department_id
+GROUP BY d.dept_name, d.budget;
 ```
 
 ---
@@ -308,10 +320,11 @@ Make sure you have the following tables with data:
 ### Q16: Find pairs of employees who work in the same department. Don't repeat pairs (e.g., if you show Alice-Bob, don't show Bob-Alice) and don't pair employees with themselves.
 
 ```sql
-
-
-
-
+SELECT e.name,e2.name
+FROM employees e
+INNER JOIN employees e2
+ON e.department_id = e2.department_id
+WHERE e2.id > e.id;
 ```
 
 ---
@@ -319,8 +332,6 @@ Make sure you have the following tables with data:
 ### Q17: List all projects with their department name and the names of all employees working on that project. If a project has multiple employees, show multiple rows.
 
 ```sql
-
-
 
 ```
 ---
