@@ -4,10 +4,8 @@
 
 ### Additional Data Entries
 
-Since you'll be doing complex subquery practice, I've added more data to make queries more interesting:
-
 ```sql
--- Add more employees
+-- Add more employees (total will be 15)
 INSERT INTO employees VALUES
 (11, 'Karen White', 2, 1, 74000, '2023-03-15', 'karen@company.com'),
 (12, 'Leo Brown', 3, 3, 66000, '2023-05-20', 'leo@company.com'),
@@ -15,14 +13,14 @@ INSERT INTO employees VALUES
 (14, 'Noah Miller', 1, 5, 59000, '2023-10-01', 'noah@company.com'),
 (15, 'Olivia Davis', 2, 2, 67000, '2023-11-15', 'olivia@company.com');
 
--- Add more projects
+-- Add more projects (total will be 10)
 INSERT INTO projects VALUES
 (7, 'Employee Training', 1, 75000, '2023-07-01', 'In Progress'),
 (8, 'Budget Analysis', 2, 120000, '2023-08-15', 'Completed'),
 (9, 'Network Upgrade', 3, 180000, '2023-09-01', 'In Progress'),
 (10, 'Brand Refresh', 4, 90000, '2023-10-01', 'Planning');
 
--- Add more employee-project assignments
+-- Add more employee-project assignments (total will be 18)
 INSERT INTO employee_projects VALUES
 (11, 8, 95.0, 'Analyst'),
 (12, 9, 110.0, 'Network Engineer'),
@@ -32,464 +30,419 @@ INSERT INTO employee_projects VALUES
 (1, 7, 40.0, 'Advisor'),
 (9, 10, 75.0, 'Creative Lead'),
 (6, 1, 25.0, 'Contractor');
+
+-- Add a salary_history table (new!)
+CREATE TABLE salary_history (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    employee_id INT,
+    old_salary DECIMAL(10,2),
+    new_salary DECIMAL(10,2),
+    change_date DATE,
+    FOREIGN KEY (employee_id) REFERENCES employees(id)
+);
+
+INSERT INTO salary_history VALUES
+(1, 1, 80000, 85000, '2023-01-01'),
+(2, 2, 68000, 72000, '2023-01-01'),
+(3, 3, 65000, 68000, '2023-01-01'),
+(4, 5, 75000, 78000, '2023-06-01'),
+(5, 7, 68000, 71000, '2023-01-01'),
+(6, 9, 75000, 80000, '2023-01-01');
 ```
 
-**Updated Totals:**
-- **Employees:** 15 (was 10)
-- **Departments:** 5 (unchanged)
-- **Projects:** 10 (was 6)
-- **Employee-Project Assignments:** 18 (was 10)
+**Complete Dataset:**
+- **Employees:** 15
+- **Departments:** 5
+- **Projects:** 10
+- **Employee-Project Assignments:** 18
+- **Salary History:** 6 records
 
 ---
 
-## 🎯 Basic Subquery Questions (Q1-Q8)
-
 ### Q1: Find all employees whose salary is higher than the average salary of all employees.
-
-**Hint:** Single-row subquery with AVG()
-
 ```sql
--- Your SQL Query:
-
-
-
-
 
 ```
-
-**Expected Result:** ~7 employees  
-**Concepts:** Single-row subquery, AVG aggregation
 
 ---
 
 ### Q2: List employees who work in departments with a budget greater than $600,000.
 
-**Hint:** Use IN with subquery on departments table
-
 ```sql
--- Your SQL Query:
-
-
-
-
 
 ```
-
-**Expected Result:** Employees in IT, Finance, Sales  
-**Concepts:** Multiple-row subquery, IN operator
 
 ---
 
 ### Q3: Find the employee(s) with the highest salary in the company.
 
-**Hint:** Use subquery with MAX()
-
 ```sql
--- Your SQL Query:
-
-
-
-
 
 ```
-
-**Expected Result:** Alice Johnson (85000)  
-**Concepts:** Single-row subquery, MAX aggregation
 
 ---
 
 ### Q4: Display all employees who were hired after 'Bob Smith'.
 
-**Hint:** Compare hire_date with subquery
-
 ```sql
--- Your SQL Query:
-
-
-
-
 
 ```
-
-**Expected Result:** ~12 employees (hired after 2020-03-20)  
-**Concepts:** Single-row subquery, date comparison
 
 ---
 
 ### Q5: Find departments that have at least one employee.
 
-**Hint:** Use EXISTS or IN with subquery
-
 ```sql
--- Your SQL Query:
-
-
-
-
 
 ```
-
-**Expected Result:** 4 departments (Sales has no employees)  
-**Concepts:** EXISTS operator, correlated subquery
 
 ---
 
 ### Q6: List employees who are NOT assigned to any project.
 
-**Hint:** Use NOT IN or NOT EXISTS with employee_projects
-
 ```sql
--- Your SQL Query:
-
-
-
-
 
 ```
-
-**Expected Result:** Multiple employees  
-**Concepts:** NOT IN, NOT EXISTS, anti-join pattern
 
 ---
 
 ### Q7: Find all projects with a budget higher than the average project budget.
 
-**Hint:** Subquery with AVG() on projects table
-
 ```sql
--- Your SQL Query:
-
-
-
-
 
 ```
-
-**Expected Result:** 3-4 projects  
-**Concepts:** Single-row subquery, filtering with AVG
 
 ---
 
 ### Q8: Show employees whose salary is less than ANY employee in the Finance department.
 
-**Hint:** Use ANY operator
-
 ```sql
--- Your SQL Query:
-
-
-
-
 
 ```
-
-**Expected Result:** Employees earning less than the highest Finance salary  
-**Concepts:** Multiple-row subquery, ANY operator
 
 ---
 
-## 🔥 Intermediate Subquery Questions (Q9-Q16)
-
 ### Q9: Find employees earning more than the average salary of their own department.
 
-**Hint:** Correlated subquery comparing employee salary with dept average
-
 ```sql
--- Your SQL Query:
-
-
-
-
 
 ```
-
-**Expected Result:** ~7 employees  
-**Concepts:** Correlated subquery, department-wise comparison
 
 ---
 
 ### Q10: List departments where the average employee salary is higher than the company-wide average salary.
 
-**Hint:** HAVING clause with subquery
-
 ```sql
--- Your SQL Query:
-
-
-
-
 
 ```
-
-**Expected Result:** 2-3 departments  
-**Concepts:** Subquery in HAVING, GROUP BY with aggregation
 
 ---
 
 ### Q11: Find employees who work in the same department as 'Charlie Brown' but earn more than him.
 
-**Hint:** Two conditions - same dept AND higher salary
-
 ```sql
--- Your SQL Query:
-
-
-
-
 
 ```
-
-**Expected Result:** Grace Taylor  
-**Concepts:** Multiple conditions, single-row subquery
 
 ---
 
 ### Q12: Display the second-highest salary in the company.
-
-**Hint:** Use MAX with condition to exclude the highest
-
 ```sql
--- Your SQL Query:
-
-
-
-
 
 ```
-
-**Expected Result:** 80000 (Ivy Anderson)  
-**Concepts:** Nested subquery, MAX with exclusion
 
 ---
 
 ### Q13: Find all employees who earn more than ALL employees in the IT department.
 
-**Hint:** Use ALL operator or compare with MAX
-
 ```sql
--- Your SQL Query:
-
-
-
-
-
 ```
-
-**Expected Result:** Employees earning > 71000 (highest IT salary)  
-**Concepts:** Multiple-row subquery, ALL operator
 
 ---
 
 ### Q14: List projects that have more than the average number of employees assigned to them.
 
-**Hint:** Count employees per project, compare with average count
-
 ```sql
--- Your SQL Query:
-
-
-
-
 
 ```
-
-**Expected Result:** Projects with >1.8 employees  
-**Concepts:** Derived table, aggregation comparison
 
 ---
 
 ### Q15: Find employees whose hire date is the earliest in their department.
 
-**Hint:** Correlated subquery with MIN(hire_date)
-
 ```sql
--- Your SQL Query:
-
-
-
-
 
 ```
-
-**Expected Result:** First hire in each department  
-**Concepts:** Correlated subquery, MIN aggregation, date comparison
 
 ---
 
 ### Q16: Show departments that have no completed projects.
 
-**Hint:** NOT EXISTS or NOT IN with projects filtered by status
-
 ```sql
--- Your SQL Query:
-
-
-
-
 
 ```
-
-**Expected Result:** Departments without projects with status='Completed'  
-**Concepts:** NOT EXISTS, status filtering
 
 ---
 
-## 💪 Advanced Subquery Questions (Q17-Q25)
-
 ### Q17: Find employees who are working on more projects than the average number of projects per employee.
 
-**Hint:** Count projects per employee, compare with average
-
 ```sql
--- Your SQL Query:
-
-
-
-
 
 ```
-
-**Expected Result:** Employees with >1.2 projects  
-**Concepts:** Derived table, COUNT comparison, subquery in HAVING
 
 ---
 
 ### Q18: List the top 3 highest-paid employees in each department.
 
-**Hint:** Use correlated subquery to count employees earning more
-
 ```sql
--- Your SQL Query:
-
-
-
-
 
 ```
-
-**Expected Result:** 3 employees per department (if available)  
-**Concepts:** Correlated subquery, ranking without window functions
 
 ---
 
 ### Q19: Find projects where the total hours worked is greater than the average total hours across all projects.
-
-**Hint:** SUM hours by project, compare with overall average
-
 ```sql
--- Your SQL Query:
-
-
-
-
 
 ```
-
-**Expected Result:** Projects with high total hours  
-**Concepts:** GROUP BY with HAVING, subquery with AVG(SUM())
 
 ---
 
 ### Q20: Display employees who have the same salary as at least one other employee.
 
-**Hint:** Self-comparison using subquery or IN
-
 ```sql
--- Your SQL Query:
-
-
-
-
 
 ```
-
-**Expected Result:** Employees with duplicate salaries  
-**Concepts:** Self-join via subquery, duplicate detection
 
 ---
 
 ### Q21: Find departments where at least one employee earns above $75,000.
-
-**Hint:** EXISTS with salary condition
-
 ```sql
--- Your SQL Query:
-
-
-
-
 
 ```
-
-**Expected Result:** HR, Marketing (departments with high earners)  
-**Concepts:** Correlated EXISTS, filtering
 
 ---
 
 ### Q22: List employees whose manager earns less than them.
 
-**Hint:** Self-join via subquery or correlated subquery
-
 ```sql
--- Your SQL Query:
-
-
-
-
 
 ```
-
-**Expected Result:** Employees earning more than their managers  
-**Concepts:** Self-referencing subquery, salary comparison
 
 ---
 
 ### Q23: Find the department with the highest average salary.
-
-**Hint:** Subquery with MAX(AVG(salary))
-
 ```sql
--- Your SQL Query:
-
-
-
-
 
 ```
-
-**Expected Result:** Marketing (average ~78333)  
-**Concepts:** Nested aggregation, derived table
 
 ---
 
 ### Q24: Show all employees who work on projects in departments other than their own.
 
-**Hint:** Join employee_projects and projects, compare department_ids
-
 ```sql
--- Your SQL Query:
-
-
-
-
 
 ```
-
-**Expected Result:** Cross-department collaborators  
-**Concepts:** Multiple table subquery, inequality comparison
 
 ---
 
 ### Q25: Find pairs of employees who have worked on at least one common project together.
-
-**Hint:** Self-join on employee_projects with same project_id
-
 ```sql
--- Your SQL Query:
-
-
-
-
 
 ```
+
+---
+
+### Q26: Display each employee with the average salary of their department alongside their own salary.
+
+```sql
+
+```
+
+---
+
+### Q27: Show each department with the count of its employees and the company-wide total employee count.
+
+```sql
+
+```
+
+---
+
+### Q28: List employees with their salary and the difference from the department average.
+
+```sql
+
+```
+
+---
+
+### Q29: Display each project with its budget and the percentage of the total budget across all projects.
+
+```sql
+
+```
+
+---
+
+### Q30: Show employees with their current salary and the maximum salary in the company.
+```sql
+
+```
+
+---
+
+### Q31: Using a derived table, find departments where average salary exceeds $70,000.
+
+```sql
+
+```
+
+---
+
+### Q32: Create a derived table of project statistics (total hours, employee count) and find projects with more than 100 total hours.
+```sql
+
+```
+
+---
+
+### Q33: Using a derived table, rank departments by their total budget and show only the top 3.
+
+```sql
+
+```
+
+---
+
+### Q34: Find employees whose salary is in the top 20% of all salaries using a derived table.
+
+```sql
+
+```
+
+---
+
+### Q35: Create a summary table showing department name, employee count, and average salary, then find departments with above-average employee counts.
+
+```sql
+
+```
+
+---
+
+### Q36: Give a 10% salary increase to all employees earning below the company average.
+
+```sql
+
+```
+
+---
+
+### Q37: Delete all projects that have no employees assigned to them.
+```sql
+```
+
+---
+
+### Q38: Update the salary of employees in the IT department to match the average salary of the Finance department.
+
+```sql
+
+```
+
+---
+
+### Q39: Delete employees who were hired in the last 6 months AND are not assigned to any project.
+
+```sql
+
+```
+
+---
+
+### Q40: Increase the budget of departments that have completed projects by 5%.
+
+```sql
+
+```
+
+---
+### Q41: Find employees who have the same (department_id, salary) combination as another employee.
+
+```sql
+
+```
+
+---
+
+### Q42: List projects that have the same (department_id, status) as at least one other project.
+
+```sql
+
+```
+
+---
+
+### Q43: Find employees whose (hire_date, department_id) matches any employee hired in 2023.
+
+```sql
+
+```
+
+---
+
+### Q44: Show departments where (employee_count, average_salary) is higher than at least one other department.
+
+```sql
+
+```
+
+---
+
+### Q45: Find employees who work in a different department than their manager but earn the same salary.
+
+```sql
+
+```
+
+---
+
+### Q46: Find employees who received a salary increase (in salary_history) and now earn more than their department's average.
+
+```sql
+
+```
+
+---
+
+### Q47: List departments that have both: (a) at least one project with status 'Completed' AND (b) average employee salary > $65,000.
+
+```sql
+
+```
+
+---
+
+### Q48: Find the employee who has worked the most total hours across all projects, showing their name and total hours.
+
+```sql
+
+```
+
+---
+
+### Q49: Show projects where the average hours worked per employee is greater than the company-wide average hours per employee-project assignment.
+
+```sql
+
+```
+
+---
+
+### Q50: Create a report showing each employee with: their name, current salary, department average salary, company average salary, and a status indicating if they're 'Underpaid' (below dept avg), 'Fair' (within 10% of dept avg), or 'Overpaid' (above dept avg).
+
+```sql
+
+```
+
 ---

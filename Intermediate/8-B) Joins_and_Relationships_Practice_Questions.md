@@ -332,16 +332,35 @@ WHERE e2.id > e.id;
 ### Q17: List all projects with their department name and the names of all employees working on that project. If a project has multiple employees, show multiple rows.
 
 ```sql
+SELECT p.project_name,d.dept_name,ex.name
+FROM projects p
+INNER JOIN departments d
+ON (p.department_id=d.id)
+INNER JOIN (
+	SELECT e.name,ep.project_id
+    FROM employees e
+    INNER JOIN employee_projects ep
+    ON (e.id=ep.employee_id)
+) ex ON p.id = ex.project_id;
+```
 
+**Simpler**:
+```sql
+SELECT p.project_name, d.dept_name, e.name
+FROM projects p
+LEFT JOIN departments d ON p.department_id = d.id
+INNER JOIN employee_projects ep ON p.id = ep.project_id
+INNER JOIN employees e ON ep.employee_id = e.id;
 ```
 ---
 
 ### Q18: Find employees who are working on more than one project. Show employee name and the count of projects they're working on.
 ```sql
-
-
-
-
+SELECT e.name, COUNT(ep.project_id) AS project_count
+FROM employees e
+INNER JOIN employee_projects ep ON e.id = ep.employee_id
+GROUP BY e.name
+HAVING COUNT(ep.project_id) > 1; 
 ```
 
 ---
@@ -349,19 +368,23 @@ WHERE e2.id > e.id;
 ### Q19: Create a hierarchy report showing employees and their entire management chain up to 3 levels (employee → manager → manager's manager).
 
 ```sql
-
-
-
-
+SELECT e1.name AS employee_name,
+    e2.name AS manager_name,
+    e3.name AS senior_manager_name
+FROM employees e1
+LEFT JOIN employees e2 ON e1.manager_id = e2.id
+LEFT JOIN employees e3 ON e2.manager_id = e3.id;
 ```
 
 ---
 
 ### Q20: Find departments that have at least one completed project and at least one employee. Show department name, count of completed projects, and count of employees.
 ```sql
-
-
-
-
-
+SELECT d.dept_name,
+    COUNT(DISTINCT p.id) AS completed_projects,
+    COUNT(DISTINCT e.id) AS employee_count
+FROM departments d
+INNER JOIN employees e ON d.id = e.department_id
+INNER JOIN projects p ON d.id = p.department_id AND p.status = 'Completed'
+GROUP BY d.dept_name;
 ```
