@@ -63,7 +63,6 @@ INSERT INTO salary_history VALUES
 ```sql
 
 ```
-
 ---
 
 ### Q2: List employees who work in departments with a budget greater than $600,000.
@@ -71,7 +70,6 @@ INSERT INTO salary_history VALUES
 ```sql
 
 ```
-
 ---
 
 ### Q3: Find the employee(s) with the highest salary in the company.
@@ -79,7 +77,6 @@ INSERT INTO salary_history VALUES
 ```sql
 
 ```
-
 ---
 
 ### Q4: Display all employees who were hired after 'Bob Smith'.

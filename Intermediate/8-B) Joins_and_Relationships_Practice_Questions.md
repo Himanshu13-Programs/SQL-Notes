@@ -304,8 +304,7 @@ HAVING Avg_salary > 70000;
 ### Q15: Display a report showing: department name, number of employees, number of projects, and total department budget. Include all departments even if they have no employees or projects.
 
 ```sql
-SELECT 
-    d.dept_name,
+SELECT d.dept_name,
     COUNT(DISTINCT e.id) AS employee_count,
     COUNT(DISTINCT p.id) AS project_count,
     d.budget AS department_budget
