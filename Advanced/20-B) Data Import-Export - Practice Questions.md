@@ -1,4 +1,4 @@
-# Day 20-B – Data Import/Export Practice Questions
+# 20-B – Data Import/Export Practice Questions
 
 ## 📋 Practice Setup
 
